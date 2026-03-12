@@ -94,10 +94,28 @@ button:focus-visible {
   height: 100px;
   border: solid 1px white;
   border-radius: 10px;
+  cursor: pointer;
+
+  div {
+    font-size: 50px;
+    position: absolute;
+  }
 }
 
 .card-value {
-  font-size: 50px;
+  opacity: 0;
+}
+
+.card.flipped {
+  cursor: default;
+
+  .card-question {
+    opacity: 0;
+  }
+
+  .card-value {
+    opacity: 1;
+  }
 }
 
 .stat-item__stat-label {

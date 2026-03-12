@@ -23,7 +23,7 @@ const cardValues = [
 
 function App() {
 
-  const [cards, setCards] = useState();
+  const [cards, setCards] = useState([]);
   const initializeGame = () => {
     const tempCard = cardValues.map((value, index) => ({
       id: index,
@@ -33,20 +33,34 @@ function App() {
     }));
 
     setCards(tempCard);
-    // console.log(tempCard)
   }
 
   useEffect(() => {
     initializeGame();
   }, [])
 
+  const handleCardClick = (card) => {
+
+    if (card.isFlipped || card.isMatched) {
+      return;
+    }
+    const tempCards = cards.map((i) => {
+      if (i.id == card.id) {
+        return { ...i, isFlipped: true }
+      } else {
+        return i;
+      }
+    })
+    setCards(tempCards);
+  }
+
   return (
     <div className="app-container">
       <GameHeader score={3} moves={10} />
       <div className="cards-grid-container mt-10">
         <div className="cards-grid grid justify-center">
-          {cardValues.map((value) => (
-            <Card card={value} />
+          {cards.map((card) => (
+            <Card key={card.id} card={card} handleCardClick={handleCardClick} />
           ))}
         </div>
       </div>
