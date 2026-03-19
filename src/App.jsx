@@ -38,6 +38,10 @@ function App() {
     }));
 
     setCards(tempCards);
+    setFlippedCards([]);
+    setMatchedCards([]);
+    setScore(0);
+    setMoves(0);
   }
 
   // Calls initialize function once
@@ -111,8 +115,8 @@ function App() {
   // Render game UI
   return (
     <div className="app-container">
-      <GameHeader score={score} moves={moves} />
-      <div className="cards-grid-container mt-10">
+      <GameHeader score={score} moves={moves} resetGame={initializeGame} />
+      <div className="cards-grid-container mt-8">
         <div className="cards-grid grid justify-center">
           {cards.map((card) => (
             <Card key={card.id} card={card} handleCardClick={handleCardClick} />
