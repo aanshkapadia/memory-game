@@ -25,29 +25,32 @@ function App() {
 
   const [cards, setCards] = useState([]);
   const [flippedCards, setFlippedCards] = useState([]);
+  const [matchedCards, setMatchedCards] = useState([]);
 
   const initializeGame = () => {
-    const tempCard = cardValues.map((value, index) => ({
+    const tempCards = cardValues.map((value, index) => ({
       id: index,
       value,
       isFlipped: false,
       isMatched: false,
     }));
 
-    setCards(tempCard);
+    setCards(tempCards);
   }
 
+  // Calls initialize function once
   useEffect(() => {
     initializeGame();
   }, [])
 
   const handleCardClick = (card) => {
 
+    // Click should not affect flipped or matched cards
     if (card.isFlipped || card.isMatched) {
       return;
     }
 
-    // Set flipped card value to true onclick
+    // Flip card upon click
     const tempCards = cards.map((i) => {
       if (i.id == card.id) {
         return { ...i, isFlipped: true }
@@ -59,14 +62,27 @@ function App() {
 
     const flippedCardsTemp = [...flippedCards, card.id];
     setFlippedCards(flippedCardsTemp);
-    console.log(flippedCards);
-
 
     // Check if flipped cards MATCH
     if (flippedCards.length === 1) {
       const first_flipped_card = cards[flippedCards[0]];
+
       if (card.value == first_flipped_card.value) {
-        console.log("MATCH!");
+        setTimeout(() => {
+          console.log("MATCH!");
+          setMatchedCards((prev) => [...prev, first_flipped_card.id, card.id]);
+
+          // Set isMatched to true for main cards array
+          setCards((prev) =>
+            prev.map((c) => {
+              if ((c.id == card.id) || (c.id == first_flipped_card.id)) {
+                return { ...c, isMatched: true }
+              } else {
+                return c;
+              }
+            }));
+          setFlippedCards([]);
+        }, 500)
       }
 
       // Flip cards back if not a match

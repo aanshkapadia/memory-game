@@ -118,6 +118,11 @@ button:focus-visible {
   }
 }
 
+.card.matched {
+  background: linear-gradient(180deg, rgba(255, 0, 255, 0.2), rgba(138, 43, 226, 0.2));
+  box-shadow: 0 0 20px rgba(255, 0, 255, 0.6), inset 0 0 20px rgba(255, 0, 255, 0.2);
+}
+
 .stat-item__stat-label {
   text-transform: uppercase;
   color: lightskyblue;
