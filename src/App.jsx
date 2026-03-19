@@ -26,6 +26,8 @@ function App() {
   const [cards, setCards] = useState([]);
   const [flippedCards, setFlippedCards] = useState([]);
   const [matchedCards, setMatchedCards] = useState([]);
+  const [score, setScore] = useState(0);
+  const [moves, setMoves] = useState(0);
 
   const initializeGame = () => {
     const tempCards = cardValues.map((value, index) => ({
@@ -50,6 +52,8 @@ function App() {
       return;
     }
 
+    setMoves((prev) => prev + 1);
+
     // Flip card upon click
     const tempCards = cards.map((i) => {
       if (i.id == card.id) {
@@ -70,6 +74,7 @@ function App() {
       if (card.value == first_flipped_card.value) {
         setTimeout(() => {
           console.log("MATCH!");
+          setScore((prev) => prev + 1);
           setMatchedCards((prev) => [...prev, first_flipped_card.id, card.id]);
 
           // Set isMatched to true for main cards array
@@ -103,9 +108,10 @@ function App() {
     }
   }
 
+  // Render game UI
   return (
     <div className="app-container">
-      <GameHeader score={3} moves={10} />
+      <GameHeader score={score} moves={moves} />
       <div className="cards-grid-container mt-10">
         <div className="cards-grid grid justify-center">
           {cards.map((card) => (
