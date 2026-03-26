@@ -136,6 +136,8 @@ function App() {
         }
     };
 
+    const isGameComplete = matchedCards.length == cardValues.length;
+
     // Render game UI
     return (
         <div className="app-container">
@@ -144,7 +146,7 @@ function App() {
                 moves={moves}
                 resetGame={initializeGame}
             />
-            <WinMessage moves={moves} />
+            {isGameComplete && <WinMessage moves={moves} />}
             <div className="cards-grid-container mt-8">
                 <div className="cards-grid grid justify-center">
                     {cards.map((card) => (
