@@ -1,4 +1,4 @@
-export const WinMessage = ({ moves }) => {
+export const WinNotification = ({ moves }) => {
     return (
         <div className="win-message mt-6">
             <h2 className="text-xl font-bold"> Congratulations!</h2>

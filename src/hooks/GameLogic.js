@@ -1,0 +1,126 @@
+import React, { useState, useEffect } from "react";
+export const GameLogic = (cardValues) => {
+    const [cards, setCards] = useState([]);
+    const [flippedCards, setFlippedCards] = useState([]);
+    const [matchedCards, setMatchedCards] = useState([]);
+    const [score, setScore] = useState(0);
+    const [moves, setMoves] = useState(0);
+    const [isLocked, setIsLocked] = useState(false);
+
+    const shuffleCards = (array) => {
+        const shuffled = [...array];
+        for (let i = shuffled.length - 1; i > 0; i--) {
+            const j = Math.floor(Math.random() * (i + 1));
+            [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
+        }
+        return shuffled;
+    };
+
+    const initializeGame = () => {
+        const shuffledCards = shuffleCards(cardValues);
+
+        const gameBoard = shuffledCards.map((value, index) => ({
+            id: index,
+            value,
+            isFlipped: false,
+            isMatched: false,
+        }));
+
+        setCards(gameBoard);
+        setFlippedCards([]);
+        setMatchedCards([]);
+        setIsLocked(false);
+        setScore(0);
+        setMoves(0);
+    };
+
+    // Calls initialize function once
+    useEffect(() => {
+        initializeGame();
+    }, []);
+
+    const handleCardClick = (card) => {
+        // Click should not affect flipped or matched cards
+        if (card.isFlipped || card.isMatched || isLocked == true) {
+            return;
+        }
+
+        setMoves((prev) => prev + 1);
+
+        // Flip card upon click
+        const tempCards = cards.map((i) => {
+            if (i.id == card.id) {
+                return { ...i, isFlipped: true };
+            } else {
+                return i;
+            }
+        });
+        setCards(tempCards);
+
+        const flippedCardsTemp = [...flippedCards, card.id];
+        setFlippedCards(flippedCardsTemp);
+
+        // Check if 2 cards are flipped
+        if (flippedCards.length === 1) {
+            setIsLocked(true);
+            const first_flipped_card = cards[flippedCards[0]];
+
+            // Logic if cards MATCH
+            if (card.value == first_flipped_card.value) {
+                setTimeout(() => {
+                    console.log("MATCH!");
+                    setScore((prev) => prev + 1);
+                    setMatchedCards((prev) => [
+                        ...prev,
+                        first_flipped_card.id,
+                        card.id,
+                    ]);
+
+                    // Set isMatched to true for main cards array
+                    setCards((prev) =>
+                        prev.map((c) => {
+                            if (
+                                c.id == card.id ||
+                                c.id == first_flipped_card.id
+                            ) {
+                                return { ...c, isMatched: true };
+                            } else {
+                                return c;
+                            }
+                        }),
+                    );
+                    setFlippedCards([]);
+                    setIsLocked(false);
+                }, 500);
+            }
+
+            // Flip cards back if not a match
+            else {
+                setTimeout(() => {
+                    const flipCardsBack = cards.map((j) => {
+                        if (flippedCards.includes(j.id)) {
+                            console.log(j);
+                            return { ...j, isFlipped: false };
+                        } else {
+                            return j;
+                        }
+                    });
+                    setCards(flipCardsBack);
+                    setFlippedCards([]);
+                    setIsLocked(false);
+                }, 500);
+            }
+        }
+    };
+
+    const isGameComplete = matchedCards.length == cardValues.length;
+
+    return {
+        cards,
+        score,
+        moves,
+        isGameComplete,
+        initializeGame,
+        handleCardClick,
+    };
+};

@@ -15,7 +15,7 @@ export const GameHeader = ({ score, moves, resetGame }) => {
                 </div>
                 <button className="mt-3 mb-2" onClick={resetGame}>
                     {" "}
-                    Reset Game
+                    Start New Game
                 </button>
             </div>
         </div>
