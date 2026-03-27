@@ -4,22 +4,22 @@ import { WinNotification } from "./components/WinNotification";
 import { GameLogic } from "./hooks/GameLogic";
 
 const cardValues = [
-    "🍎",
-    "🍊",
-    "🍋",
-    "🍌",
-    "🍉",
-    "🍓",
-    "🍇",
-    "🍒",
-    "🍎",
-    "🍊",
-    "🍋",
-    "🍌",
-    "🍉",
-    "🍓",
-    "🍇",
-    "🍒",
+    "🐶",
+    "🐳",
+    "🐰",
+    "🦊",
+    "🐼",
+    "🦉",
+    "🦁",
+    "🐢",
+    "🐶",
+    "🐳",
+    "🐰",
+    "🦊",
+    "🐼",
+    "🦉",
+    "🦁",
+    "🐢",
 ];
 
 // Render game UI
